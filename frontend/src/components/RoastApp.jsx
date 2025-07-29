@@ -1,26 +1,51 @@
 import React, { useState } from 'react';
 import RoastForm from './RoastForm';
 import RoastResult from './RoastResult';
-import { mockRoasts } from '../utils/mockData';
+import { useToast } from '../hooks/use-toast';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const RoastApp = () => {
   const [currentRoast, setCurrentRoast] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showForm, setShowForm] = useState(true);
+  const [error, setError] = useState(null);
+  const { toast } = useToast();
 
   const handleRoastSubmit = async (formData) => {
     setIsLoading(true);
     setShowForm(false);
+    setError(null);
     
-    // Simulate API call with mock data
-    setTimeout(() => {
-      const randomRoast = mockRoasts[Math.floor(Math.random() * mockRoasts.length)];
+    try {
+      // Real API call to backend
+      const response = await axios.post(`${API}/roast`, formData);
+      
       setCurrentRoast({
-        ...randomRoast,
+        ...response.data,
         userData: formData
       });
+      
+      toast({
+        title: "Roast Generated! 🔥",
+        description: "Your digital destruction is complete!",
+      });
+      
+    } catch (err) {
+      console.error('Error generating roast:', err);
+      setError('Failed to generate roast. Please try again!');
+      setShowForm(true);
+      
+      toast({
+        title: "Roast Failed 😞",
+        description: "Something went wrong. Please try again!",
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   const handleNewRoast = () => {
