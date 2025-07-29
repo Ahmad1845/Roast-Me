@@ -52,6 +52,7 @@ const RoastApp = () => {
     setCurrentRoast(null);
     setShowForm(true);
     setIsLoading(false);
+    setError(null);
   };
 
   return (
@@ -76,6 +77,16 @@ const RoastApp = () => {
 
         {/* Main Content */}
         <main className="container mx-auto px-4 pb-8">
+          {/* Error State */}
+          {error && (
+            <div className="max-w-2xl mx-auto mb-6">
+              <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-4 text-center">
+                <p className="text-red-400 font-semibold">🚨 Roast Generation Failed</p>
+                <p className="text-gray-300 mt-1">{error}</p>
+              </div>
+            </div>
+          )}
+          
           {showForm && (
             <RoastForm onSubmit={handleRoastSubmit} isLoading={isLoading} />
           )}
