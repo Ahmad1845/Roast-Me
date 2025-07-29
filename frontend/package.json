@@ -72,6 +72,9 @@
     ]
   },
   "devDependencies": {
+    "vite": "^5.0.0", 
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "@craco/craco": "^7.1.0",
     "@eslint/js": "9.23.0",
     "autoprefixer": "^10.4.20",
