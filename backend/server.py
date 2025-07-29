@@ -131,8 +131,17 @@ async def generate_roast(user_data: RoastRequest) -> str:
     
     except Exception as e:
         logging.error(f"OpenAI API error: {e}")
-        # Fallback roast if API fails
-        return f"Oh {user_data.name}, I tried to roast you but even my AI circuits couldn't handle the level of processing power needed to comprehend your unique blend of... let's call it 'character'. The fact that you're {user_data.age} and still making the life choices that led you here tells me everything I need to know. At least you're consistent in your commitment to questionable decisions!"
+        
+        # Enhanced fallback roasts based on user data
+        fallback_roasts = {
+            "light": f"Hey {user_data.name}, at {user_data.age} years old, you're like a fine wine... if wine could somehow get more questionable with age! {f'Your {user_data.occupation} career' if user_data.occupation else 'Your life choices'} suggest you're really committed to... well, let's call it 'creative problem-solving.' {f'And {user_data.embarrassing_fact}?' if user_data.embarrassing_fact else ''} Classic you! But hey, at least you're brave enough to ask an AI to roast you - that takes a special kind of confidence!",
+            
+            "medium": f"Well well, {user_data.name}, {user_data.age} years on this planet and this is what you've accomplished? {f'Working as a {user_data.occupation}' if user_data.occupation else 'Your career path'} really screams 'I peaked in high school,' doesn't it? {f'Your hobbies include {user_data.hobbies}' if user_data.hobbies else 'Your free time activities'} - because nothing says 'I have my life together' like that combination. {f'And let us not forget {user_data.embarrassing_fact}' if user_data.embarrassing_fact else 'Your track record'} - truly the stuff of legends! But I admire the audacity of asking an AI to hurt your feelings. That takes real commitment to self-destruction!",
+            
+            "savage": f"Oh {user_data.name}, where do I even begin with this beautiful disaster? At {user_data.age}, most people have figured out basic adulting, but you... you chose a different path, didn't you? {f'Being a {user_data.occupation}' if user_data.occupation else 'Your career choices'} is like watching someone try to solve a Rubik's cube with their feet - technically possible, but painful for everyone involved. {f'Your personality traits of {user_data.personality}' if user_data.personality else 'Your whole vibe'} scream 'I was the kid who reminded the teacher about homework.' {f'And {user_data.embarrassing_fact}?' if user_data.embarrassing_fact else 'Your life story?'} That's not embarrassing, that's a masterclass in questionable decision-making! The fact that you voluntarily signed up to get digitally destroyed tells me your self-preservation instincts are about as developed as your fashion sense. But hey, at least you're consistent in your commitment to chaos!"
+        }
+        
+        return fallback_roasts.get(user_data.roast_intensity, fallback_roasts["medium"])
 
 # API Routes
 @api_router.get("/")
