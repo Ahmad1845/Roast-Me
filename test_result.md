@@ -171,13 +171,9 @@ metadata:
   test_sequence: 1
 
 test_plan:
-  current_focus:
-    - "AI Roast Me Form Functionality"
-    - "AI Roast Generation and Display"
-    - "Interactive Features (TTS, Copy, Share)"
-    - "Backend API Integration"
+  current_focus: []
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
